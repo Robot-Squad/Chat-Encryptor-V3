@@ -1,9 +1,7 @@
 from PyQt6.QtWidgets import QWidget, QApplication, QVBoxLayout, QLabel, QMessageBox, QLineEdit
 from PyQt6.QtCore import Qt
 from cryptography.fernet import Fernet
-import pyperclip
-import win10toast
-import keyboard
+import pyperclip, win10toast, keyboard
 
 class Window(QWidget):
     def __init__(self):
@@ -49,16 +47,7 @@ class Window(QWidget):
         keyboard.add_hotkey("ctrl+e", encrypt)
         keyboard.add_hotkey("ctrl+d", decrypt)
         
-        #Heading
-        
-        #self.label2=QLabel("Enter key sent by your host:-",parent=self)
-        #layout.addWidget(self.label1,alignment=Qt.AlignmentFlag.AlignCenter)
-
-        #self.input=QLineEdit()
-        #self.input.setFixedWidth(200)
-        #layout.addWidget(self.input, alignment= Qt.AlignmentFlag.AlignCenter)
-        #key=self.input.text()
-        #Instructions Dialog
+        #Instruction Dialog
         msg=QMessageBox(text="""
 Instructions on how to use the program:\n
 Key is copied to your clipboard after you either ask for a new key or type the new key into dialog box.\n
@@ -74,7 +63,8 @@ decrypted text also appears on the notification shown after decyption\n""",paren
         msg.setWindowTitle("Usage Instructions")
         msg.setIcon(QMessageBox.Icon.Information)
         msg.exec()
-
+        
+        #Key Gen Dialog
         msg=QMessageBox(parent=self,text="Do you require a new key?")
         msg.setWindowTitle("Key Generation")
         msg.setStandardButtons(QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
@@ -86,11 +76,7 @@ decrypted text also appears on the notification shown after decyption\n""",paren
             key_msg=QMessageBox(parent=self,text=text)
             key_msg.setWindowTitle("Key Gen")
             key_msg.setIcon(QMessageBox.Icon.Warning)
-            key_msg.exec()
-        else:
-            pass
-
-        
+            key_msg.exec()            
 
 
 app = QApplication([])
