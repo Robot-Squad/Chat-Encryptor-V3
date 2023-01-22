@@ -1,7 +1,7 @@
 from PyQt6.QtWidgets import QWidget, QApplication, QVBoxLayout, QLabel, QMessageBox, QLineEdit
 from PyQt6.QtCore import Qt
 from cryptography.fernet import Fernet
-import pyperclip, win10toast, keyboard
+import pyperclip, win10toast, keyboard, qdarktheme
 
 class Window(QWidget):
     def __init__(self):
@@ -80,6 +80,7 @@ decrypted text also appears on the notification shown after decyption\n""",paren
 
 
 app = QApplication([])
+qdarktheme.setup_theme()
 window = Window()
 window.show()
 app.exec()
