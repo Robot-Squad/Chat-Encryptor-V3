@@ -11,6 +11,8 @@ import win10toast
 from tkinter.filedialog import askopenfilename, asksaveasfile
 import os
 conversations = {}
+global current_value
+current_value = 0
 class EncryptionSoftware():
     def __init__(self, key, enc, dec):
         self.key = key
@@ -90,6 +92,16 @@ def changekeys():
     n_key = keyret()
     conversations[tabview.get()][0] = n_key
     conversations[tabview.get()][1].key = n_key
+def checkbox():
+    global current_value
+    current_value = 1 if current_value == 0 else 0
+    print(current_value)
+def enc_handler():
+    if current_value == 0: conversations[tabview.get()][1].encrypt()
+    else: conversations[tabview.get()][1].files_enc()
+def dec_handler():
+    if current_value == 0: conversations[tabview.get()][1].decrypt()
+    else: conversations[tabview.get()][1].files_dec()
 def ntab():
     conv = ct.CTkInputDialog(title="Conversation name", text="Enter a name for this conversation: ")
     conv_ret = conv.get_input()
@@ -117,11 +129,12 @@ def ntab():
     conversations[conv_name] = (kb, EncryptionSoftware(kb, enc, dec))
     button_1 = ct.CTkButton(tabview.tab(conv_name), text="New conversation", command=ntab)
     button_1.place(relx=0.9, rely=0.9, anchor=tkinter.CENTER)
-    check1 = ct.CTkCheckBox(master=tabview.tab(conv_name), text="File")
+    check1 = ct.CTkCheckBox(master=tabview.tab(conv_name), text="File", onvalue=1, offvalue=0, command=checkbox)
     check1.place(relx=0.1, rely=0.9, anchor=tkinter.CENTER)
-    button_2 = ct.CTkButton(tabview.tab(conv_name), text="Decrypt", command= conversations[tabview.get()][1].decrypt if check1 == 0 else conversations[tabview.get()][1].files_dec)
+    print(check1.get())
+    button_2 = ct.CTkButton(tabview.tab(conv_name), text="Decrypt", command=dec_handler)
     button_2.place(relx=0.7, rely=0.9, anchor=tkinter.CENTER)
-    button_3 = ct.CTkButton(tabview.tab(conv_name), text="Encrypt", command=conversations[tabview.get()][1].encrypt if check1 == 0 else conversations[tabview.get()][1].files_enc)
+    button_3 = ct.CTkButton(tabview.tab(conv_name), text="Encrypt", command=enc_handler)
     button_3.place(relx=0.5, rely=0.9, anchor=tkinter.CENTER)
     button_4 = ct.CTkButton(tabview.tab(conv_name), text="Regenerate key", command=changekeys)
     button_4.place(relx=0.3, rely=0.9, anchor=tkinter.CENTER)
