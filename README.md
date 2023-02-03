@@ -1,8 +1,5 @@
 <h1> Chat-Encryptor-V3 </h1>
 <strong> Basic function: It can encrypt and decrypt any text or file given</strong> <br />
-<h3>The App:</h3>
-![image](https://user-images.githubusercontent.com/83009704/216606446-53f90b2f-de75-4288-8ed1-5214bf36ea64.png)
-
 <h2> How to use the App?</h2>
 <ol>
   <h3> Initial setup </h3>
