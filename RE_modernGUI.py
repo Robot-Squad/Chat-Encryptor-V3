@@ -159,6 +159,5 @@ keyboard.add_hotkey("ctrl+shift+e", conversations[tabview.get()][1].files_enc)
 keyboard.add_hotkey("ctrl+shift+d", conversations[tabview.get()][1].files_dec)
 keyboard.add_hotkey("ctrl+n+c", ntab)
 keyboard.add_hotkey("ctrl+s+c", ctab)
-
 root.mainloop()
-#  TODO: once we make RE encryption algo, change this algo to tha
+#  TODO: once we make RE encryption algo, change this algo to that
