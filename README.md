@@ -14,6 +14,10 @@
 <ul>
   <li> <h4>To Encrypt: </h4> select and copy <kbd> ctrl+c </kbd> the text to encrypt and press <kbd> ctrl+e </kbd> to encrypt.. press <kbd> ctrl+v </kbd> to paste the encrypted data </li>
   <li> <h4> To Decrypt: </h4> select and paste <kbd> ctrl+c </kbd> the text to decrypt and press<kbd> ctrl+d </kbd> to decrypt.. then press <kbd> ctrl+v </kbd> to see the decrypted text </li>
+  <li> <h4> To Create A New Conversation </h4> Press <kbd> ctrl + n + c </kbd> to create a new conversation </li>
+   <li> <h4> To Close a Conversation </h4> Press <kbd> ctrl + s + c </kbd> to close conversation </li>
+     <li> <h4> To Encrypt the file </h4> Press <kbd> ctrl + shift + e </kbd> to close conversation </li>
+     <li> <h4> To Decrypt the File </h4> Press <kbd> ctrl + shift + d </kbd> to close conversation </li>
 decrypted text also appears on the notification shown after decyption</ li>
 </ul>
 <br>
@@ -47,4 +51,5 @@ NEW!: You can now add new conversations by presing the new tab button</ li>
 <ul>
     <li> To create a new conversation, (i.e. chat with a different person using a different key) you can press the "new conversation button" and follow the steps </li>
     <li> To Generate a new key for given conversation, press the  "Regenerate key" button </li>
+  <li> To close the conversation, you can press the "close conversation" button </li>
 <ul>
