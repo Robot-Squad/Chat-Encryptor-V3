@@ -112,7 +112,6 @@ def ctab():
     else:
         conversations.pop(tabview.get())
         tabview.delete(tabview.get())
-
 def ntab():
     conv = ct.CTkInputDialog(title="Conversation name", text="Enter a name for this conversation: ")
     conv_ret = conv.get_input()
@@ -151,10 +150,13 @@ def ntab():
     button_4.place(relx=0.3, rely=0.9, anchor=tkinter.CENTER)
     button_5 = ct.CTkButton(tabview.tab(conv_name), text="Close Chat", command=ctab)
     button_5.place(relx=0.9, rely=0.1, anchor=tkinter.CENTER)
+    button_6 = ct.CTkButton(tabview.tab(conv_name), text="Copy Key", command=lambda: pyperclip.copy(str(kb.decode('utf-8'))))
+    button_6.place(relx=0.1, rely=0.1, anchor=tkinter.CENTER)
 ntab()
 keyboard.add_hotkey("ctrl+e", conversations[tabview.get()][1].encrypt, args=(True, ))
 keyboard.add_hotkey("ctrl+d", conversations[tabview.get()][1].decrypt, args=(True, ))
 keyboard.add_hotkey("ctrl+shift+e", conversations[tabview.get()][1].files_enc)
+keyboard.add_hotkey("ctrl+shift+d", conversations[tabview.get()][1].files_dec)
 keyboard.add_hotkey("ctrl+n+c", ntab)
 keyboard.add_hotkey("ctrl+s+c", ctab)
 
