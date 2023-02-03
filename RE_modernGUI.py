@@ -19,6 +19,7 @@ class EncryptionSoftware():
         self.enc = enc
         self.dec = dec
         self.fern = Fernet(self.key)
+        self.notifier=win10toast.ToastNotifier()
     def files_enc(self):
         file_r = askopenfilename()
         if os.path.splitext(file_r)[-1] == '.txt':
@@ -30,18 +31,22 @@ class EncryptionSoftware():
         file_w = asksaveasfile(mode='wb', defaultextension='.crypt')
         file_w.write(self.fern.encrypt(dat))
         file_w.close()
+        
     def files_dec(self):
-        file_r = askopenfilename()
-        with open(os.path.abspath(file_r), 'rb') as encfile:
-            dat =  encfile.read()
-        file_w = asksaveasfile(mode='wb')
-        file_w.write(self.fern.decrypt(dat))
+        try:
+            file_r = askopenfilename()
+            with open(os.path.abspath(file_r), 'rb') as encfile:
+                dat =  encfile.read()
+            file_w = asksaveasfile(mode='wb')
+            file_w.write(self.fern.decrypt(dat))
+        except:
+                showerror(title="File Permission denied", message="Could not open file! (maybe you closed the file explorer window?)")
 
     def encrypt(self, hotkey:bool = False, file:bool = False):
         data = pyperclip.paste().encode('utf-8') if hotkey else self.enc.get().encode('utf-8')
         pyperclip.copy(self.fern.encrypt(data).decode('utf-8'))
-        n=win10toast.ToastNotifier()
-        n.show_toast(title="Encrypt and chat", msg="message encrypted..paste to send encrypted message", threaded=True)
+        
+        self.notifier.show_toast(title="Encrypt and chat", msg="message encrypted.. paste to send encrypted message", threaded=True)
     def decrypt(self, hotkey:bool = False):
         try:
             data = pyperclip.paste().encode('utf-8')  if hotkey else self.dec.get().encode('utf-8')
@@ -50,8 +55,7 @@ class EncryptionSoftware():
             showerror('An error occurred', f"On decrypting data, the following exception occured (probably the key or the message to be decrypted is invalid)")
             dec = "ERROR: <an error occured while decrypting this message>"
         pyperclip.copy(dec)
-        n=win10toast.ToastNotifier()
-        n.show_toast(title="Encrypt and chat", msg=f"decrypted message reads: {dec}", threaded=True)
+        self.notifier.show_toast(title="Encrypt and chat", msg=f"decrypted message reads: {dec}", threaded=True)
         showinfo('decrypted message', f"decrypted message: \n {dec}")
 ct.set_appearance_mode("dark")
 root = ct.CTk()
@@ -102,6 +106,13 @@ def enc_handler():
 def dec_handler():
     if current_value == 0: conversations[tabview.get()][1].decrypt()
     else: conversations[tabview.get()][1].files_dec()
+def ctab():
+    if len(conversations) == 1:
+        quit()
+    else:
+        conversations.pop(tabview.get())
+        tabview.delete(tabview.get())
+
 def ntab():
     conv = ct.CTkInputDialog(title="Conversation name", text="Enter a name for this conversation: ")
     conv_ret = conv.get_input()
@@ -138,12 +149,14 @@ def ntab():
     button_3.place(relx=0.5, rely=0.9, anchor=tkinter.CENTER)
     button_4 = ct.CTkButton(tabview.tab(conv_name), text="Regenerate key", command=changekeys)
     button_4.place(relx=0.3, rely=0.9, anchor=tkinter.CENTER)
+    button_5 = ct.CTkButton(tabview.tab(conv_name), text="Close Chat", command=ctab)
+    button_5.place(relx=0.9, rely=0.1, anchor=tkinter.CENTER)
 ntab()
 keyboard.add_hotkey("ctrl+e", conversations[tabview.get()][1].encrypt, args=(True, ))
 keyboard.add_hotkey("ctrl+d", conversations[tabview.get()][1].decrypt, args=(True, ))
+keyboard.add_hotkey("ctrl+shift+e", conversations[tabview.get()][1].files_enc)
+keyboard.add_hotkey("ctrl+n+c", ntab)
+keyboard.add_hotkey("ctrl+s+c", ctab)
+
 root.mainloop()
-#  TODO: Add FILES encryption support
-#  TODO: Add individual tabs handling support
-#  TODO: Add a button to re-generate a new key for a convo
-#  TODO: once we make RE encryption algo, change this algo to that
-#  TODO: make proper UI for encryption and decryption so that people can use this app without the hotkeys
+#  TODO: once we make RE encryption algo, change this algo to tha
