@@ -79,15 +79,18 @@ to decrypt: select and paste (ctrl+c) the text to decrypt and press ctrl+d to de
 decrypted text also appears on the notification shown after decyption\n
 NEW!: You can now add new conversations by presing the new tab button""")
 def keyret():
+    keystr = ""
     answer = askyesno("new key", "do you require a new key?")
     if answer: 
         key = Fernet.generate_key()
     else:
-        keydial = ct.CTkInputDialog(text="Type in your key:", title="Enter Key")
-        keystr = keydial.get_input()
-        if keystr is not None: key = keystr.encode('utf-8')
-        else: root.quit()
-    print(key)
+        while keystr is None or keystr == "": 
+            keydial = ct.CTkInputDialog(text="Type in your key:", title="Enter Key")
+            keystr = keydial.get_input()
+            if keystr == "" or keystr is None: 
+                showerror("No key entered!", "Please enter an appropriate key!")
+        else: 
+            key = keystr.decode("utf-8")
     pyperclip.copy(str(key.decode('utf-8')))
     n=win10toast.ToastNotifier()
     n.show_toast(title="key copied", msg="key copied to clipboard!", duration = 3, threaded=True)
@@ -115,7 +118,7 @@ def ctab():
 def ntab():
     conv = ct.CTkInputDialog(title="Conversation name", text="Enter a name for this conversation: ")
     conv_ret = conv.get_input()
-    conv_name = conv_ret if conv_ret is not None or conv_ret != "" else f"Untitled conv {len(conversations)}"
+    conv_name = conv_ret if not conv_ret == '' else f"Untitled conv {len(conversations)}"
     tabview.add(conv_name)
     kb = keyret()
     l1 = ct.CTkLabel(tabview.tab(conv_name), text="Data to Encrypt")
